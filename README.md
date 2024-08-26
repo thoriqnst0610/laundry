@@ -606,5 +606,55 @@ Metode ini menangani permintaan GET untuk mengambil data transaksi berdasarkan I
 
 ---
 
-Dengan dokumentasi ini, pengembang dan pengguna API dapat memahami cara menggunakan metode-metode dalam `TransaksiController`, parameter yang diperlukan, dan respons yang diharapkan dari setiap permintaan.
+Berikut adalah dokumentasi untuk `pengaturancontroller` dalam aplikasi PHP kamu. Dokumentasi ini memberikan informasi tentang metode `mengedit`, parameter yang diperlukan, serta respons yang dihasilkan.
+
+---
+
+## Dokumentasi API: `pengaturan hargar`
+
+### 1. `mengedit()`
+
+**Deskripsi:**
+Metode ini menangani permintaan POST untuk mengupdate pengaturan tertentu. Data pengaturan dikirim dalam format JSON melalui `php://input`.
+
+**Endpoint:**
+- **URL**: `/pengaturan/mengedit`
+- **Method**: PUT
+- **Content-Type**: application/json
+
+**Header yang Ditetapkan:**
+- `Content-Type: application/json` - Menetapkan tipe konten respons sebagai JSON.
+- `Access-Control-Allow-Methods: PUT` - Mengizinkan metode PUT dalam permintaan CORS.
+- `Access-Control-Allow-Origin: *` - Mengizinkan akses dari semua sumber untuk permintaan CORS.
+
+**Parameter Input (JSON):**
+- **id** (int): ID pengaturan yang akan diupdate.
+- **kg** (float): Nilai berat dalam kilogram untuk pengaturan.
+- **hr** (float): Nilai harga per kilogram untuk pengaturan.
+
+**Respons:**
+- **200 OK**:
+  ```json
+  {
+      "message": "berhasil mengupdate pengaturan"
+  }
+  ```
+- **400 Bad Request** (Jika terjadi kesalahan):
+  ```json
+  {
+      "message": "gagal mengupdate pengaturan",
+      "error": "Pesan kesalahan spesifik"
+  }
+  ```
+
+**Alur Kerja:**
+1. Atur header respons untuk JSON dan CORS.
+2. Ambil data JSON dari `php://input` dan decode menjadi array asosiatif.
+3. Buat objek `Pengaturan` dan isi dengan data dari input.
+4. Panggil metode `mengedit` dari `pengaturanservice` untuk memperbarui pengaturan.
+5. Kirimkan respons JSON dengan pesan sukses jika update berhasil, atau pesan kesalahan jika terjadi kesalahan.
+
+---
+
+
 
