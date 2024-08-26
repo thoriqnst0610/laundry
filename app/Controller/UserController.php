@@ -55,15 +55,19 @@ class UserController
         header('Access-Control-Allow-Methods: POST');
         header('Access-Control-Allow-Origin: *');
 
-        $request = new UserRegisterRequest();
-        $request->id = $_POST['id'];
-        $request->name = $_POST['name'];
-        $request->capcha = $_POST['captcha'];
 
-        $request->password = $_POST['password'];
-        $request->verification_code = bin2hex(random_bytes(16));
 
         try {
+
+            $this->userService->cek_data_register();
+
+            $request = new UserRegisterRequest();
+            $request->id = $_POST['id'];
+            $request->name = $_POST['name'];
+            $request->capcha = $_POST['captcha'];
+
+            $request->password = $_POST['password'];
+            $request->verification_code = bin2hex(random_bytes(16));
 
             $this->userService->register($request);
             http_response_code(200);
@@ -88,12 +92,10 @@ class UserController
 
             http_response_code(200);
             echo json_encode(['message' => 'verifikasi berhasil']);
-
         } catch (Exception $ex) {
 
             http_response_code(200);
             echo json_encode(['message' => 'verifikasi gagal', 'error' => $ex->getMessage()]);
-
         }
     }
 
@@ -118,13 +120,17 @@ class UserController
         header('Access-Control-Allow-Methods: POST');
         header('Access-Control-Allow-Origin: *');
 
-        $request = new UserLoginRequest();
-        $request->id = $_POST['id'];
-        $request->password = $_POST['password'];
-        $request->capcha = $_POST['captcha'];
 
 
         try {
+
+            $this->userService->cek_data_login();
+
+            $request = new UserLoginRequest();
+            $request->id = $_POST['id'];
+            $request->password = $_POST['password'];
+            $request->capcha = $_POST['captcha'];
+
             $response = $this->userService->login($request);
             $this->sessionService->create($response->user->id);
 
