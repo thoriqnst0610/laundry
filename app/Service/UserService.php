@@ -162,7 +162,7 @@ class UserService
                 $mail->Host       = 'smtp.gmail.com';
                 $mail->SMTPAuth   = true;
                 $mail->Username   = 'nstbotak@gmail.com';
-                $mail->Password   = 'hmkn vlkp kywq dvsl';
+                $mail->Password   = 'ganti dengan sandi anda';
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
                 $mail->Port       = 587;
 
