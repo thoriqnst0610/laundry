@@ -74,11 +74,20 @@ class UserService
         }
     }
 
+    public function cek_data_register()
+    {
+        if(!isset($_POST['id']) || !isset($_POST['password']) || !isset($_POST['captcha']) || !isset($_POST['name'])){
+
+            throw new ValidationException("data request tidak boleh kosong");
+        }
+
+    }
+
     private function validateUserRegistrationRequest(UserRegisterRequest $request)
     {
         if (
-            $request->id == null || $request->name == null || $request->password == null ||
-            trim($request->id) == "" || trim($request->name) == "" || trim($request->password) == ""
+            $request->id == null || $request->name == null || $request->password == null || $request-> capcha == null ||
+            trim($request->id) == "" || trim($request->name) == "" || trim($request->password) == "" || trim($request->capcha) == "" 
         ) {
             throw new ValidationException("Id, Name, Password tidak boleh kosong");
         }
@@ -122,11 +131,20 @@ class UserService
         }
     }
 
+    public function cek_data_login()
+    {
+        if(!isset($_POST['id']) || !isset($_POST['password']) || !isset($_POST['captcha'])){
+
+            throw new ValidationException("data request tidak boleh kosong");
+        }
+
+    }
+
     private function validateUserLoginRequest(UserLoginRequest $request)
     {
         if (
-            $request->id == null || $request->password == null ||
-            trim($request->id) == "" || trim($request->password) == ""
+            $request->id == null || $request->password == null || $request-> capcha == null ||
+            trim($request->id) == "" || trim($request->password) == "" || $request-> capcha == ""
         ) {
             throw new ValidationException("Id atau password tidak boleh kosong");
         }
