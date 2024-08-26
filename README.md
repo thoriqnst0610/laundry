@@ -202,8 +202,182 @@ Metode ini menangani logout pengguna dengan menghancurkan sesi pengguna dan meng
 1. Hancurkan sesi pengguna menggunakan `sessionService`.
 2. Arahkan pengguna ke halaman beranda ("/").
 
+
+Berikut adalah dokumentasi untuk controller `CustomerController` dalam aplikasi PHP kamu. Dokumentasi ini mencakup deskripsi, parameter, respons, dan alur kerja untuk setiap metode dalam controller ini.
+
 ---
 
-Dengan dokumentasi ini, pengembang dan pengguna API dapat memahami cara menggunakan berbagai metode di controller, parameter yang diperlukan, dan apa yang diharapkan sebagai hasil dari setiap permintaan.
+## Dokumentasi API: `Customer`
+
+### 1. `postSave()`
+
+**Deskripsi:**
+Metode ini menangani permintaan POST untuk menyimpan data pelanggan baru. Data dikirim melalui form POST dan kemudian disimpan menggunakan layanan pelanggan.
+
+**Endpoint:**
+- **URL**: `/admin/tambah`
+- **Method**: POST
+- **Content-Type**: application/json
+
+**Header yang Ditetapkan:**
+- `Content-Type: application/json` - Menetapkan tipe konten respons sebagai JSON.
+- `Access-Control-Allow-Methods: POST` - Mengizinkan metode POST dalam permintaan CORS.
+- `Access-Control-Allow-Origin: *` - Mengizinkan akses dari semua sumber untuk permintaan CORS.
+
+**Parameter Input:**
+- **name** (string): Nama pelanggan.
+- **phone** (string): Nomor telepon pelanggan.
+- **address** (string): Alamat pelanggan.
+
+**Respons:**
+- **200 OK**:
+  ```json
+  {
+      "message": "berhasil menambah data"
+  }
+  ```
+- **400 Bad Request** (Jika terjadi kesalahan):
+  ```json
+  {
+      "message": "gagal menambah data",
+      "error": "Pesan kesalahan spesifik"
+  }
+  ```
+
+**Alur Kerja:**
+1. Atur header respons untuk JSON dan CORS.
+2. Validasi data menggunakan metode `cek_data_save` dari `CustomerService`.
+3. Ambil data dari `$_POST` dan buat objek `CustomerSaveRequest`.
+4. Panggil metode `save` pada `CustomerService` untuk menyimpan data.
+5. Kirimkan respons JSON sesuai hasil.
+
+---
+
+### 2. `tampil()`
+
+**Deskripsi:**
+Metode ini menangani permintaan GET untuk menampilkan semua data pelanggan. Data dikembalikan dalam format JSON.
+
+**Endpoint:**
+- **URL**: `/admin/dashboard`
+- **Method**: GET
+- **Content-Type**: application/json
+
+**Header yang Ditetapkan:**
+- `Content-Type: application/json` - Menetapkan tipe konten respons sebagai JSON.
+- `Access-Control-Allow-Methods: GET` - Mengizinkan metode GET dalam permintaan CORS.
+- `Access-Control-Allow-Origin: *` - Mengizinkan akses dari semua sumber untuk permintaan CORS.
+
+**Respons:**
+- **200 OK**:
+  ```json
+  {
+      "message": "berhasil menampilkan data",
+      "data": [
+          // Array data pelanggan
+      ]
+  }
+  ```
+- **204 No Content** (Jika data kosong):
+  ```json
+  {
+      "message": "data kosong"
+  }
+  ```
+
+**Alur Kerja:**
+1. Atur header respons untuk JSON dan CORS.
+2. Panggil metode `tampil` dari `CustomerService` untuk mengambil data pelanggan.
+3. Kirimkan respons JSON dengan data pelanggan atau pesan kosong jika tidak ada data.
+
+---
+
+### 3. `postEdit()`
+
+**Deskripsi:**
+Metode ini menangani permintaan POST untuk mengedit data pelanggan yang sudah ada. Data dikirim dalam format JSON melalui `php://input`.
+
+**Endpoint:**
+- **URL**: `/admin/edit`
+- **Method**: PUT
+- **Content-Type**: application/json
+
+**Header yang Ditetapkan:**
+- `Content-Type: application/json` - Menetapkan tipe konten respons sebagai JSON.
+- `Access-Control-Allow-Methods: POST` - Mengizinkan metode PUT dalam permintaan CORS.
+- `Access-Control-Allow-Origin: *` - Mengizinkan akses dari semua sumber untuk permintaan CORS.
+
+**Parameter Input (JSON):**
+- **id** (string): ID pelanggan.
+- **name** (string): Nama pelanggan.
+- **phone** (string): Nomor telepon pelanggan.
+- **address** (string): Alamat pelanggan.
+
+**Respons:**
+- **200 OK**:
+  ```json
+  {
+      "message": "berhasil mengedit data"
+  }
+  ```
+- **400 Bad Request** (Jika terjadi kesalahan):
+  ```json
+  {
+      "message": "gagal mengedit data",
+      "error": "Pesan kesalahan spesifik"
+  }
+  ```
+
+**Alur Kerja:**
+1. Atur header respons untuk JSON dan CORS.
+2. Ambil data dari `php://input` dan buat objek `CustomerEditRequest`.
+3. Validasi data menggunakan metode `cek_data_edit` dari `CustomerService`.
+4. Panggil metode `edit` pada `CustomerService` untuk mengupdate data pelanggan.
+5. Kirimkan respons JSON sesuai hasil.
+
+---
+
+### 4. `hapus()`
+
+**Deskripsi:**
+Metode ini menangani permintaan GET untuk menghapus data pelanggan berdasarkan ID. ID pelanggan diterima sebagai parameter query string `idc`.
+
+**Endpoint:**
+- **URL**: `/admin/hapus`
+- **Method**: DELETE
+- **Content-Type**: application/json
+
+**Header yang Ditetapkan:**
+- `Content-Type: application/json` - Menetapkan tipe konten respons sebagai JSON.
+- `Access-Control-Allow-Methods: GET` - Mengizinkan metode DELETE dalam permintaan CORS.
+- `Access-Control-Allow-Origin: *` - Mengizinkan akses dari semua sumber untuk permintaan CORS.
+
+**Parameter Input (Query String):**
+- **idc** (string): ID pelanggan yang akan dihapus.
+
+**Respons:**
+- **200 OK**:
+  ```json
+  {
+      "message": "berhasil menghapus data"
+  }
+  ```
+- **400 Bad Request** (Jika terjadi kesalahan):
+  ```json
+  {
+      "message": "gagal menghapus data",
+      "error": "Pesan kesalahan spesifik"
+  }
+  ```
+
+**Alur Kerja:**
+1. Atur header respons untuk JSON dan CORS.
+2. Validasi data menggunakan metode `cek_data_hapus` dari `CustomerService`.
+3. Panggil metode `hapus` pada `CustomerService` untuk menghapus data pelanggan berdasarkan ID.
+4. Kirimkan respons JSON sesuai hasil.
+
+---
+
+Dengan dokumentasi ini, pengembang dan pengguna API dapat memahami cara menggunakan metode-metode dalam `CustomerController`, parameter yang diperlukan, dan apa yang diharapkan sebagai hasil dari setiap permintaan.
 
 
