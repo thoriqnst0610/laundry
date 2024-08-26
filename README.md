@@ -378,6 +378,233 @@ Metode ini menangani permintaan GET untuk menghapus data pelanggan berdasarkan I
 
 ---
 
-Dengan dokumentasi ini, pengembang dan pengguna API dapat memahami cara menggunakan metode-metode dalam `CustomerController`, parameter yang diperlukan, dan apa yang diharapkan sebagai hasil dari setiap permintaan.
+Berikut adalah dokumentasi untuk `TransaksiController` dalam aplikasi PHP kamu. Dokumentasi ini menjelaskan setiap metode, parameter yang diperlukan, serta respons yang dihasilkan.
 
+---
+
+## Dokumentasi API: `Transaksi`
+
+### 1. `postTransaksi()`
+
+**Deskripsi:**
+Metode ini menangani permintaan POST untuk menambahkan transaksi baru. Data transaksi dikirim melalui form POST dan disimpan menggunakan layanan order.
+
+**Endpoint:**
+- **URL**: `/admin/transaksi`
+- **Method**: POST
+- **Content-Type**: application/json
+
+**Header yang Ditetapkan:**
+- `Content-Type: application/json` - Menetapkan tipe konten respons sebagai JSON.
+- `Access-Control-Allow-Methods: POST` - Mengizinkan metode POST dalam permintaan CORS.
+- `Access-Control-Allow-Origin: *` - Mengizinkan akses dari semua sumber untuk permintaan CORS.
+
+**Parameter Input:**
+- **item_name** (string): Nama item yang dipesan.
+- **quantity** (int): Jumlah item yang dipesan.
+- **order_date** (string, format YYYY-MM-DD): Tanggal pemesanan.
+- **customer** (string): ID pelanggan.
+
+**Respons:**
+- **200 OK**:
+  ```json
+  {
+      "message": "berhasil menambah transaksi"
+  }
+  ```
+- **400 Bad Request** (Jika terjadi kesalahan):
+  ```json
+  {
+      "message": "gagal menambah transaksi",
+      "error": "Pesan kesalahan spesifik"
+  }
+  ```
+
+**Alur Kerja:**
+1. Atur header respons untuk JSON dan CORS.
+2. Ambil data pengaturan dari `pengaturanservice`.
+3. Validasi data menggunakan metode `cek_data_transaksi` dari `OrderService`.
+4. Buat permintaan transaksi menggunakan `OrderService`.
+5. Kirimkan respons JSON sesuai hasil.
+
+---
+
+### 2. `pembayaran()`
+
+**Deskripsi:**
+Metode ini menangani permintaan GET untuk menampilkan semua data pembayaran.
+
+**Endpoint:**
+- **URL**: `/admin/pembayaran`
+- **Method**: GET
+- **Content-Type**: application/json
+
+**Header yang Ditetapkan:**
+- `Content-Type: application/json` - Menetapkan tipe konten respons sebagai JSON.
+- `Access-Control-Allow-Methods: GET` - Mengizinkan metode GET dalam permintaan CORS.
+- `Access-Control-Allow-Origin: *` - Mengizinkan akses dari semua sumber untuk permintaan CORS.
+
+**Respons:**
+- **200 OK**:
+  ```json
+  {
+      "message": "berhasil menampilkan pembayaran",
+      "data": [
+          // Array data pembayaran
+      ]
+  }
+  ```
+- **400 Bad Request** (Jika terjadi kesalahan):
+  ```json
+  {
+      "message": "gagal menampilkan pembayaran",
+      "error": "Pesan kesalahan spesifik"
+  }
+  ```
+
+**Alur Kerja:**
+1. Atur header respons untuk JSON dan CORS.
+2. Ambil data pembayaran dari `OrderService`.
+3. Kirimkan respons JSON dengan data pembayaran.
+
+---
+
+### 3. `mencetak semua transaksi berdasarkan date`
+
+**Deskripsi:**
+Metode ini menangani permintaan POST untuk mengambil data transaksi berdasarkan rentang tanggal. Data dikirim dalam format JSON melalui `php://input`.
+
+**Endpoint:**
+- **URL**: `/mencetak/semuatransaksi`
+- **Method**: POST
+- **Content-Type**: application/json
+
+**Header yang Ditetapkan:**
+- `Content-Type: application/json` - Menetapkan tipe konten respons sebagai JSON.
+- `Access-Control-Allow-Methods: POST` - Mengizinkan metode POST dalam permintaan CORS.
+- `Access-Control-Allow-Origin: *` - Mengizinkan akses dari semua sumber untuk permintaan CORS.
+
+**Parameter Input (JSON):**
+- **start_date** (string, format YYYY-MM-DD): Tanggal awal rentang data.
+- **end_date** (string, format YYYY-MM-DD): Tanggal akhir rentang data.
+
+**Respons:**
+- **200 OK**:
+  ```json
+  {
+      "message": "berhasil ambil data yang akan di cetak",
+      "data": [
+          // Array data transaksi
+      ]
+  }
+  ```
+- **400 Bad Request** (Jika terjadi kesalahan):
+  ```json
+  {
+      "message": "gagal ambil data untuk di cetak",
+      "error": "Pesan kesalahan spesifik"
+  }
+  ```
+
+**Alur Kerja:**
+1. Atur header respons untuk JSON dan CORS.
+2. Validasi data menggunakan metode `cek_data_ambilsemua` dari `OrderService`.
+3. Ambil data transaksi berdasarkan rentang tanggal menggunakan `OrderService`.
+4. Kirimkan respons JSON dengan data transaksi.
+
+---
+
+### 4. `updatestatus()`
+
+**Deskripsi:**
+Metode ini menangani permintaan POST untuk memperbarui status transaksi. Data dikirim dalam format JSON melalui `php://input`.
+
+**Endpoint:**
+- **URL**: `/admin/updatestatus`
+- **Method**: PUT
+- **Content-Type**: application/json
+
+**Header yang Ditetapkan:**
+- `Content-Type: application/json` - Menetapkan tipe konten respons sebagai JSON.
+- `Access-Control-Allow-Methods: POST` - Mengizinkan metode PUT dalam permintaan CORS.
+- `Access-Control-Allow-Origin: *` - Mengizinkan akses dari semua sumber untuk permintaan CORS.
+
+**Parameter Input (JSON):**
+- **id** (string): ID transaksi.
+- **status** (string): Status baru transaksi.
+
+**Respons:**
+- **200 OK**:
+  ```json
+  {
+      "message": "berhasil mengupdate status",
+      "data": [
+          // Array data transaksi setelah update
+      ]
+  }
+  ```
+- **400 Bad Request** (Jika terjadi kesalahan):
+  ```json
+  {
+      "message": "gagal mengupdate status",
+      "error": "Pesan kesalahan spesifik"
+  }
+  ```
+
+**Alur Kerja:**
+1. Atur header respons untuk JSON dan CORS.
+2. Ambil data dari `php://input` dan buat objek `Order`.
+3. Validasi data menggunakan metode `cek_data_updatestatus` dari `OrderService`.
+4. Perbarui status transaksi menggunakan `OrderService`.
+5. Ambil dan kirimkan respons JSON dengan data transaksi yang telah diperbarui.
+
+---
+
+### 5. `mencetak satu transaksi`
+
+**Deskripsi:**
+Metode ini menangani permintaan GET untuk mengambil data transaksi berdasarkan ID. ID transaksi diterima sebagai parameter query string `ido`.
+
+**Endpoint:**
+- **URL**: `/admin/satutransaksi`
+- **Method**: GET
+- **Content-Type**: application/json
+
+**Header yang Ditetapkan:**
+- `Content-Type: application/json` - Menetapkan tipe konten respons sebagai JSON.
+- `Access-Control-Allow-Methods: GET` - Mengizinkan metode GET dalam permintaan CORS.
+- `Access-Control-Allow-Origin: *` - Mengizinkan akses dari semua sumber untuk permintaan CORS.
+
+**Parameter Input (Query String):**
+- **ido** (string): ID transaksi yang akan diambil.
+
+**Respons:**
+- **200 OK**:
+  ```json
+  {
+      "message": "berhasil mengambil data",
+      "data": {
+          "id": "ID transaksi",
+          "total_amount": "Jumlah total transaksi",
+          "order_date": "Tanggal pemesanan"
+      }
+  }
+  ```
+- **400 Bad Request** (Jika terjadi kesalahan):
+  ```json
+  {
+      "message": "gagal mengambil data",
+      "error": "Pesan kesalahan spesifik"
+  }
+  ```
+
+**Alur Kerja:**
+1. Atur header respons untuk JSON dan CORS.
+2. Validasi data menggunakan metode `cek_data_ambil` dari `OrderService`.
+3. Ambil data transaksi berdasarkan ID menggunakan `OrderService`.
+4. Kirimkan respons JSON dengan data transaksi.
+
+---
+
+Dengan dokumentasi ini, pengembang dan pengguna API dapat memahami cara menggunakan metode-metode dalam `TransaksiController`, parameter yang diperlukan, dan respons yang diharapkan dari setiap permintaan.
 
