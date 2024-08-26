@@ -74,7 +74,7 @@ class UserController
             echo json_encode(['message' => 'menunggu admin mengaktifkan akun']);
         } catch (ValidationException $exception) {
 
-            http_response_code(200);
+            http_response_code(400);
             echo json_encode(['message' => $exception->getMessage()]);
         }
     }
@@ -94,7 +94,7 @@ class UserController
             echo json_encode(['message' => 'verifikasi berhasil']);
         } catch (Exception $ex) {
 
-            http_response_code(200);
+            http_response_code(400);
             echo json_encode(['message' => 'verifikasi gagal', 'error' => $ex->getMessage()]);
         }
     }
